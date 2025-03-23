@@ -76,20 +76,34 @@
         });
     }, {offset: '80%'});
 
-
     // Portfolio isotope and filter
-    var portfolioIsotope = $('.portfolio-container').isotope({
-        itemSelector: '.portfolio-item',
-        layoutMode: 'fitRows'
-    });
-    $('#portfolio-flters li').on('click', function () {
-        $("#portfolio-flters li").removeClass('active');
-        $(this).addClass('active');
+var portfolioIsotope = $('.portfolio-container').isotope({
+    itemSelector: '.portfolio-item',
+    layoutMode: 'fitRows'
+});
 
-        portfolioIsotope.isotope({filter: $(this).data('filter')});
-    });
+// Khi trang tải xong
+$(document).ready(function() {
+    // Xóa class active từ bộ lọc "Tất cả"
+    $("#portfolio-flters li[data-filter='*']").removeClass('active');
     
+    // Lấy danh mục đầu tiên sau "Tất cả" (hoặc danh mục đầu tiên nếu không có "Tất cả")
+    var firstCategory = $("#portfolio-flters li:not([data-filter='*']):first");
     
+    // Thêm class active vào danh mục đầu tiên
+    firstCategory.addClass('active');
+    
+    // Áp dụng bộ lọc cho danh mục đầu tiên
+    portfolioIsotope.isotope({filter: firstCategory.data('filter')});
+});
+
+// Xử lý click vào các bộ lọc vẫn giữ nguyên
+$('#portfolio-flters li').on('click', function () {
+    $("#portfolio-flters li").removeClass('active');
+    $(this).addClass('active');
+    
+    portfolioIsotope.isotope({filter: $(this).data('filter')});
+});
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 200) {
@@ -114,4 +128,3 @@
     });
     
 })(jQuery);
-
